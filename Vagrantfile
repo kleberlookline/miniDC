@@ -39,12 +39,25 @@ Vagrant.configure("2") do |config|
   config.vm.define 'controller' do |controller|
     controller.vm.network "private_network", ip: "172.17.177.11"
     controller.vm.hostname = "controller"
+    
+    # Restringindo o permissionamento da pasta vagrant
+    controller.vm.synced_folder "./", "/vagrant", mount_options: ["dmode=750,fmode=600"]
 
     # Configurações de Size da VM
     controller.vm.provider "virtualbox" do |v|
       v.name = "controller"
       v.memory = 1024
       v.cpus = 2
+    end
+     ## Integrando o Ansible no Provisionamento
+
+    config.vm.provision :ansible_local do |ansible|
+     ansible.install_mode = "default"
+     ansible.playbook = "playbook.yml"
+     ansible.inventory_path = "inventory"
+     ansible.verbose  = true
+     ansible.install  = true
+     ansible.limit    = "all"
     end
   end
 end
