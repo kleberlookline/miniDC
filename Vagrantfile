@@ -41,7 +41,7 @@ Vagrant.configure("2") do |config|
     controller.vm.hostname = "controller"
     
     # Restringindo o permissionamento da pasta vagrant
-    controller.vm.synced_folder "./", "/vagrant", mount_options: ["dmode=750,fmode=600"]
+    controller.vm.synced_folder "./", "/vagrant", mount_options: ["dmode=700,fmode=600"]
 
     # Configurações de Size da VM
     controller.vm.provider "virtualbox" do |v|
