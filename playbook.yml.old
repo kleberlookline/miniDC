@@ -1,0 +1,78 @@
+- hosts: all
+  remote_user: vagrant
+  become: yes  
+  #remote_user: root                
+  tasks:
+          - name: Ajustando o timezone do servidor
+            timezone:
+                    name: America/Sao_Paulo
+
+
+- hosts: controller
+  remote_user: vagrant
+  become: yes
+  tasks:
+          - name: Criando o Arquivo Info
+            lineinfile:
+                    path: /tmp/info2019
+                    line: SERVIDOR ANSIBLE CONTROLLER
+                    create: yes
+                    state: present
+
+- hosts: database
+  remote_user: vagrant
+  become: yes
+  tasks:
+         - name: Criando o Arquivo Info
+           lineinfile:
+                  path: /tmp/info2019
+                  line: SERVIDOR DE BANCO DE DADOS MYSQL
+                  create: yes
+                  state: present
+
+                  #- name: Instalar pacote do mysql
+                  #apt:
+                  #state: present
+                  #pkg: 
+                  #- mysql-server
+                  # python-pymysql
+
+         - name: Ciar um novo banco de dados com nome 'wordpress'
+           mysql_db:
+             name: wordpress
+             state: present
+
+
+
+- hosts: blog
+  remote_user: vagrant
+  become: yes
+  tasks:
+         - name: Criando o Arquivo Info
+           lineinfile:
+                  path: /tmp/info2019
+                  line: SERVIDOR DO BLOG WORDPRESS
+                  create: yes
+                  state: present
+
+         - name: Instalar pacote para LAMP
+           apt:
+            state: present
+            pkg:
+               - apache2
+               - php-curl
+               - php-gd
+               - php-mbstring
+               - php-xml
+               - php-xmlrpc
+               - php-soap
+               - php-intl
+               - php-zip
+               - php 
+               - libapache2-mod-php 
+               - php-mysql
+               - php-cli
+
+                
+
+        
